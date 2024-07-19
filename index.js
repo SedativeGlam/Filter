@@ -142,9 +142,14 @@ liddy.addEventListener("click", () => {
 const searchBox = document.querySelector(".search-box");
 searchBox.addEventListener("input", () => {
   const filterMatch = searchBox.value.toLowerCase();
-  const filteredFurnitures = furnitures.filter((item) =>
-    item.name.toLowerCase().includes(filterMatch)
-  );
+  let filteredFurnitures;
+  if (filterMatch === "all") {
+    displayFurnitures(furnitures);
+  } else {
+    filteredFurnitures = furnitures.filter((item) =>
+      item.id.toLowerCase().includes(filterMatch)
+    );
+  }
 
   if (filteredFurnitures.length === 0) {
     categories.textContent = "Sorry, no products matched your search";
