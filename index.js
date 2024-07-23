@@ -113,41 +113,16 @@ const marcos = document.querySelector(".marcos");
 const caressa = document.querySelector(".caressa");
 const liddy = document.querySelector(".liddy");
 
-all.addEventListener("click", () => {
-  displayFurnitures(furnitures);
-});
+let currentCategory = "all";
+let filteredByCategory = furnitures;
 
-ikea.addEventListener("click", () => {
-  const ikeaFilter = furnitures.filter((ikea) => ikea.id === "Ikea");
-  displayFurnitures(ikeaFilter);
-});
+const filterFurnitures = () => {
+  let filteredFurnitures = filteredByCategory;
 
-marcos.addEventListener("click", () => {
-  const marcosFilter = furnitures.filter((marcos) => marcos.id === "Marcos");
-  displayFurnitures(marcosFilter);
-});
-
-caressa.addEventListener("click", () => {
-  const caressaFilter = furnitures.filter(
-    (caressa) => caressa.id === "Caressa"
-  );
-  displayFurnitures(caressaFilter);
-});
-
-liddy.addEventListener("click", () => {
-  const liddyFilter = furnitures.filter((liddy) => liddy.id === "Liddy");
-  displayFurnitures(liddyFilter);
-});
-
-const searchBox = document.querySelector(".search-box");
-searchBox.addEventListener("input", () => {
   const filterMatch = searchBox.value.toLowerCase();
-  let filteredFurnitures;
-  if (filterMatch === "all") {
-    displayFurnitures(furnitures);
-  } else {
-    filteredFurnitures = furnitures.filter((item) =>
-      item.id.toLowerCase().includes(filterMatch)
+  if (filterMatch !== "") {
+    filteredFurnitures = filteredByCategory.filter((item) =>
+      item.name.toLowerCase().startsWith(filterMatch)
     );
   }
 
@@ -158,4 +133,37 @@ searchBox.addEventListener("input", () => {
   } else {
     displayFurnitures(filteredFurnitures);
   }
+};
+
+all.addEventListener("click", () => {
+  currentCategory = "all";
+  filteredByCategory = furnitures;
+  displayFurnitures(furnitures);
 });
+
+ikea.addEventListener("click", () => {
+  currentCategory = "Ikea";
+  filteredByCategory = furnitures.filter((item) => item?.id === "Ikea");
+  filterFurnitures();
+});
+
+marcos.addEventListener("click", () => {
+  currentCategory = "Marcos";
+  filteredByCategory = furnitures.filter((item) => item?.id === "Marcos");
+  filterFurnitures();
+});
+
+caressa.addEventListener("click", () => {
+  currentCategory = "Caressa";
+  filteredByCategory = furnitures.filter((item) => item?.id === "Caressa");
+  filterFurnitures();
+});
+
+liddy.addEventListener("click", () => {
+  currentCategory = "Liddy";
+  filteredByCategory = furnitures.filter((item) => item?.id === "Liddy");
+  filterFurnitures();
+});
+
+const searchBox = document.querySelector(".search-box");
+searchBox.addEventListener("input", filterFurnitures);
